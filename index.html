@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mage Adare ♥️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:black;
+  font-family:'Poppins',sans-serif;
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* PASSWORD */
+#passwordScreen{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:black;
+}
+
+input{
+  padding:12px;
+  border-radius:20px;
+  border:none;
+  font-size:18px;
+  text-align:center;
+}
+
+button{
+  margin-top:15px;
+  padding:10px 30px;
+  border-radius:20px;
+  border:none;
+  background:#ff2e63;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.hint{
+  margin-top:10px;
+  font-size:14px;
+  color:#ff4d88;
+  opacity:0.8;
+}
+
+/* COUNTDOWN */
+#countdown{
+  display:none;
+  font-family:'Great Vibes',cursive;
+  font-size:90px;
+  color:#ff2e63;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+}
+
+/* SLIDESHOW */
+#slideshow{
+  display:none;
+  position:relative;
+  width:100%;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+}
+
+.slide{
+  position:absolute;
+  width:60%;
+  max-height:70%;
+  border-radius:20px;
+  opacity:0;
+  transition:opacity 2s ease-in-out;
+}
+
+.slide.active{opacity:1;}
+
+.slide-text{
+  position:absolute;
+  bottom:10%;
+  font-family:'Great Vibes',cursive;
+  font-size:45px;
+  color:#ff4d88;
+  opacity:0;
+  transition:opacity 2s;
+}
+
+.slide-text.active{opacity:1;}
+
+/* FINAL */
+#finalSection{
+  display:none;
+  position:relative;
+  height:100vh;
+  overflow:hidden;
+}
+
+#paragraph{
+  font-family:'Great Vibes',cursive;
+  font-size:32px;
+  color:#ff4d88;
+  white-space:pre-line;
+  margin:40px;
+}
+
+#yesBtn,#noBtn{
+  display:none;
+  margin:15px;
+}
+
+/* FIREWORK CANVAS */
+#fireworks{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+.finalText{
+  position:relative;
+  z-index:2;
+  font-family:'Great Vibes',cursive;
+  font-size:50px;
+  color:#ff4d88;
+  text-shadow:0 0 20px #ff2e63;
+  margin-top:30vh;
+}
+</style>
+</head>
+<body>
+
+<div id="passwordScreen">
+  <h2>Mage Adare ♥️</h2>
+  <input type="password" id="passwordInput">
+  <button onclick="checkPassword()">Enter</button>
+  <div class="hint">Hint: our special date</div>
+</div>
+
+<div id="countdown">5</div>
+
+<div id="slideshow">
+
+  <img src="pic1.JPG" class="slide">
+  <img src="pic2.JPG" class="slide">
+  <img src="pic3.PNG" class="slide">
+  <img src="pic4.JPG" class="slide">
+  <img src="pic5.JPG" class="slide">
+  <img src="pic6.JPG" class="slide">
+  <img src="pic7.JPG" class="slide">
+  <img src="pic8.JPG" class="slide">
+  <img src="pic9.JPG" class="slide">
+  <img src="pic10.JPG" class="slide">
+
+  <div class="slide-text" id="text"></div>
+</div>
+
+<div id="finalSection">
+  <canvas id="fireworks"></canvas>
+  <div id="paragraph"></div>
+  <button id="yesBtn" onclick="finalYes()">YES ❤️</button>
+  <button id="noBtn">NO 💔</button>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const correctPassword="050325";
+
+function checkPassword(){
+  const input=document.getElementById("passwordInput").value;
+  if(input===correctPassword){
+    document.getElementById("passwordScreen").style.display="none";
+    startCountdown();
+    document.getElementById("bgMusic").play().catch(()=>{});
+  }else{
+    alert("Wrong password ❤️");
+  }
+}
+
+function startCountdown(){
+  const cd=document.getElementById("countdown");
+  cd.style.display="flex";
+  let counter=5;
+  cd.innerHTML=counter;
+
+  const interval=setInterval(()=>{
+    counter--;
+    cd.innerHTML=counter;
+    if(counter===0){
+      clearInterval(interval);
+      cd.style.display="none";
+      startSlideshow();
+    }
+  },1000);
+}
+
+const slides=document.querySelectorAll(".slide");
+const text=document.getElementById("text");
+let current=0;
+
+const messages=[
+"You are my peace.",
+"You are my happiness.",
+"You are my comfort.",
+"You are my favorite place.",
+"You are my heart.",
+"You are my safe place.",
+"You are my home.",
+"You are my forever.",
+"You are my greatest blessing.",
+"I love you more every single day."
+];
+
+function startSlideshow(){
+  document.getElementById("slideshow").style.display="flex";
+  showSlide();
+}
+
+function showSlide(){
+  slides.forEach(s=>s.classList.remove("active"));
+  text.classList.remove("active");
+
+  slides[current].classList.add("active");
+  text.innerHTML=messages[current];
+  text.classList.add("active");
+
+  setTimeout(()=>{
+    current++;
+    if(current<slides.length){
+      showSlide();
+    }else{
+      endShow();
+    }
+  },6500);
+}
+
+const relationshipStart=new Date("2025-03-05");
+
+function calculateDays(){
+  const today=new Date();
+  return Math.floor((today-relationshipStart)/(1000*60*60*24));
+}
+
+function endShow(){
+  document.getElementById("slideshow").style.display="none";
+  document.getElementById("finalSection").style.display="block";
+
+  const paragraphText=
+  "It has been "+calculateDays()+" beautiful days together since 05 March 2025.\n\n"+
+  "Every moment with you feels like magic.\n"+
+  "You are my happiness, my peace, my safe place.\n\n"+
+  "BE MY VALENTINE ❤️";
+
+  typeWriter(paragraphText);
+}
+
+function typeWriter(text){
+  let i=0;
+  const speed=40;
+  const p=document.getElementById("paragraph");
+
+  function typing(){
+    if(i<text.length){
+      p.innerHTML+=text.charAt(i);
+      i++;
+      setTimeout(typing,speed);
+    }else{
+      document.getElementById("yesBtn").style.display="inline-block";
+      document.getElementById("noBtn").style.display="inline-block";
+    }
+  }
+  typing();
+}
+
+function finalYes(){
+  document.getElementById("finalSection").innerHTML=
+  "<canvas id='fireworks'></canvas>"+
+  "<div class='finalText'>Mama Godaak Oyata Adare ♥️<br><br>I look forward for our FUTURE soo Badly</div>";
+  startFireworks();
+}
+
+/* FAKE NO */
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+  noBtn.style.position="absolute";
+  noBtn.style.left=Math.random()*300+"px";
+  noBtn.style.top=Math.random()*300+"px";
+});
+
+/* SIMPLE FIREWORKS */
+function startFireworks(){
+  const canvas=document.getElementById("fireworks");
+  const ctx=canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  function firework(){
+    const x=Math.random()*canvas.width;
+    const y=Math.random()*canvas.height/2;
+    const radius=Math.random()*3+2;
+
+    ctx.fillStyle="hsl("+Math.random()*360+",100%,60%)";
+    ctx.beginPath();
+    ctx.arc(x,y,radius,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  setInterval(firework,100);
+}
+
+</script>
+
+</body>
+</html>
