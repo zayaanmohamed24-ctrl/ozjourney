@@ -1,260 +1,106 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OZForever 💗</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>For You ❤️</title>
 
 <style>
-body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(to bottom,#ffe6f0,#ffcce6);
-text-align:center;
-overflow-x:hidden;
-color:#5a004d;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: black;
+    color: white;
 }
+
+/* Lock Screen */
+#lockScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Main Content */
 #mainContent {
     display: none;
-}
-
-#foreverScreen {
-    display: none;
-}
-/* LOCK */
-#lockScreen{
-position:fixed;
-width:100%;
-height:100%;
-background:linear-gradient(to bottom,#ffb6d9,#ff80bf);
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:10;
-}
-
-input{
-padding:10px;
-border-radius:20px;
-border:none;
-margin-top:10px;
-text-align:center;
-}
-
-button{
-padding:10px 20px;
-border-radius:20px;
-border:none;
-background:white;
-margin-top:15px;
-cursor:pointer;
-font-weight:500;
-}
-
-.hidden{display:none;}
-
-header{padding:40px 20px;}
-
-.event{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
-
-.slideshow img{
-width:90%;
-border-radius:15px;
-}
-
-/* Hearts */
-.heart{
-position:fixed;
-bottom:-10px;
-animation:float 6s linear infinite;
-}
-@keyframes float{
-0%{transform:translateY(0);opacity:1;}
-100%{transform:translateY(-100vh);opacity:0;}
+    padding-top: 100px;
 }
 
 /* Forever Screen */
-#foreverScreen{
-position:fixed;
-width:100%;
-height:100%;
-background:#ff4da6;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:42px;
-font-weight:700;
-z-index:20;
-flex-direction:column;
+#foreverScreen {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 40px;
 }
-
-/* Fireworks */
-.firework{
-position:fixed;
-width:5px;
-height:5px;
-background:white;
-border-radius:50%;
-animation:explode 1s ease-out forwards;
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
 }
-
-@keyframes explode{
-to{
-transform:translate(var(--x),var(--y));
-opacity:0;
+input {
+    padding: 10px;
+    font-size: 16px;
 }
-}
-
-footer{padding:20px;}
 </style>
 </head>
 
 <body>
 
+<!-- LOCK SCREEN -->
 <div id="lockScreen">
-<h1>OZForever 💗</h1>
-<p>Enter our special date</p>
-<input type="password" id="password" placeholder="050325">
-<button onclick="checkPassword()">Open Our Journey</button>
+    <h2>Enter Password ❤️</h2>
+    <input type="password" id="password" placeholder="Enter password">
+    <br>
+    <button onclick="checkPassword()">Unlock</button>
 </div>
 
-<div id="content" class="hidden">
-
-<header>
-<h1>Zayan @ Oma 💕</h1>
-<p>Together since 05 March 2025</p>
-<h3 id="counter"></h3>
-</header>
-
-<div class="event">
-<h2>💼 Started Working Together</h2>
-<p>02 September 2025</p>
-<p>“Was so happy to have you with me.”</p>
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+    <h1>I Love You ❤️</h1>
+    <button onclick="showForever()">Click Me</button>
 </div>
 
-<div class="event">
-<h2>✈️ First Trip to Sri Lanka</h2>
-<p>14 November 2025</p>
-<p>“My first ever trip abroad. And it was special cause it was with you.”</p>
+<!-- FOREVER SCREEN -->
+<div id="foreverScreen">
+    I LOVE YOU FOREVER ❤️
 </div>
 
-<div class="event">
-<h2>🎂 Celebrating Her Birthday</h2>
-<p>16 November 2025</p>
-<p>“First birthday I did something for my loved one.”</p>
-</div>
-
-<div class="event">
-<h2>🌏 Upcoming Trip</h2>
-<p>20 March 2026</p>
-<p>“Can’t wait ❤️”</p>
-</div>
-
-<div class="slideshow">
-<img id="slide" src="1.jpg">
-</div>
-
-<button onclick="startLetter()">Click For A Surprise 💌</button>
-
-<div id="letterBox" class="hidden">
-<h2>To My Oma 💗</h2>
-<p id="typedText"></p>
-<button onclick="showForever()">One More Thing...</button>
-</div>
-
-<footer>Made with love by Zayan 💗</footer>
-</div>
-
-<div id="foreverScreen" class="hidden">
-<div>I LOVE YOU FOREVER ❤️</div>
-</div>
-
+<!-- Hidden Music -->
 <iframe width="0" height="0"
 src="https://www.youtube.com/embed/0RADF_oGiWw?autoplay=1&loop=1&playlist=0RADF_oGiWw"
-allow="autoplay"></iframe>
+allow="autoplay">
+</iframe>
 
 <script>
 
-/* PASSWORD */
+/* PASSWORD CHECK */
 function checkPassword(){
-if(document.getElementById("password").value==="050325"){
-document.getElementById("lockScreen").style.display="none";
-document.getElementById("content").classList.remove("hidden");
-}else{alert("Wrong password 💔");}
+    if(document.getElementById("password").value === "050325"){
+        document.getElementById("lockScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+    } else {
+        alert("Wrong Password ❤️");
+    }
 }
 
-/* COUNTER */
-const startDate=new Date("March 5, 2025 00:00:00");
-function updateCounter(){
-const now=new Date();
-const diff=now-startDate;
-const days=Math.floor(diff/(1000*60*60*24));
-document.getElementById("counter").innerText=
-"We have been together for "+days+" days 💞";
-}
-setInterval(updateCounter,1000);updateCounter();
-
-/* SLIDESHOW */
-const images=["1.jpg","2.jpg","3.jpg","4.jpg"];
-let i=0;
-setInterval(()=>{i=(i+1)%images.length;
-document.getElementById("slide").src=images[i];},3000);
-
-/* HEARTS */
-setInterval(()=>{
-const heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💗";
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(Math.random()*20+10)+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},500);
-
-/* TYPEWRITER */
-const message=`From the moment you came into my life, everything changed.
-You became my happiness, my peace, my motivation.
-Every memory with you is special.
-Every future plan with you means everything to me.
-No matter what happens, I choose you.
-Always.`;
-
-let index=0;
-function startLetter(){
-document.getElementById("letterBox").classList.remove("hidden");
-let interval=setInterval(()=>{
-if(index<message.length){
-document.getElementById("typedText").innerHTML+=message.charAt(index);
-index++;
-}else{clearInterval(interval);}
-},40);
-}
-
-/* FOREVER + FIREWORKS */
+/* SHOW FOREVER */
 function showForever(){
-document.getElementById("foreverScreen").classList.remove("hidden");
-for(let j=0;j<100;j++){
-let fw=document.createElement("div");
-fw.className="firework";
-fw.style.left="50%";
-fw.style.top="50%";
-fw.style.setProperty("--x",(Math.random()*400-200)+"px");
-fw.style.setProperty("--y",(Math.random()*400-200)+"px");
-document.body.appendChild(fw);
-setTimeout(()=>fw.remove(),1000);
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("foreverScreen").style.display = "flex";
 }
-}
+
+/* FORCE LOCK SCREEN ON LOAD */
+window.onload = function() {
+    document.getElementById("foreverScreen").style.display = "none";
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("lockScreen").style.display = "flex";
+    window.scrollTo(0, 0);
+};
 
 </script>
 
