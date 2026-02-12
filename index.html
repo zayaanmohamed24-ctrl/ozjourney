@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mage Adare ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+  margin: 0;
+  background: black;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* COUNTDOWN */
+#countdown {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 80px;
+  color: #ff4d6d;
+  animation: glow 2s infinite alternate;
+  z-index: 10;
+}
+
+/* GLOW */
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff4d6d; }
+  to { text-shadow: 0 0 30px #ff99aa; }
+}
+
+/* NAMES */
+#names {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  font-family: 'Great Vibes', cursive;
+  font-size: 40px;
+  color: #ff4d6d;
+  text-shadow: 0 0 15px #ff4d6d;
+  animation: glow 2s infinite alternate;
+  z-index: 5;
+}
+
+/* SLIDESHOW */
+#slideshow {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.slide {
+  position: absolute;
+  width: 65%;
+  max-height: 70%;
+  border-radius: 20px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2.5s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide-text {
+  position: absolute;
+  bottom: 12%;
+  font-family: 'Great Vibes', cursive;
+  font-size: 45px;
+  color: #ff4d6d;
+  text-shadow: 0 0 15px rgba(255,77,109,0.8);
+  opacity: 0;
+  transition: opacity 2.5s ease-in-out;
+}
+
+.slide-text.active {
+  opacity: 1;
+}
+
+/* FINAL */
+#finalSection {
+  display: none;
+  padding: 60px;
+}
+
+#paragraph {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: #ff4d6d;
+  max-width: 850px;
+  margin: auto;
+  white-space: pre-line;
+}
+
+button {
+  margin-top: 40px;
+  padding: 15px 40px;
+  font-size: 22px;
+  border-radius: 30px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+button:hover {
+  transform: scale(1.15);
+}
+
+#yesBtn {
+  display: none;
+  animation: floatBtn 2s infinite ease-in-out;
+}
+
+@keyframes floatBtn {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+#noBtn {
+  display: none;
+  position: absolute;
+}
+
+/* CELEBRATION */
+#celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('pic3.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#finalText {
+  font-family: 'Great Vibes', cursive;
+  font-size: 55px;
+  color: #ff4d6d;
+  text-align: center;
+  text-shadow: 0 0 25px rgba(0,0,0,0.9);
+  z-index: 2;
+  animation: glow 2s infinite alternate;
+}
+
+.loveFloat {
+  position: absolute;
+  font-family: 'Great Vibes', cursive;
+  color: rgba(255,255,255,0.6);
+  font-size: 30px;
+  animation: floatUp 8s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 0; }
+  to { transform: translateY(-10vh); opacity: 1; }
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="countdown">5</div>
+
+<div id="names">Zayan ❤️ Your Love</div>
+
+<div id="slideshow">
+
+  <img src="pic1.jpg" class="slide">
+  <img src="pic2.jpg" class="slide">
+  <img src="pic3.jpg" class="slide">
+  <img src="pic4.jpg" class="slide">
+  <img src="pic5.jpg" class="slide">
+  <img src="pic6.jpg" class="slide">
+  <img src="pic7.jpg" class="slide">
+  <img src="pic8.jpg" class="slide">
+  <img src="pic9.jpg" class="slide">
+  <img src="pic10.jpg" class="slide">
+
+  <div class="slide-text" id="text"></div>
+
+</div>
+
+<div id="finalSection">
+  <div id="paragraph"></div>
+  <button id="yesBtn" onclick="finalMessage()">YES ❤️</button>
+  <button id="noBtn">NO 💔</button>
+</div>
+
+<audio loop autoplay>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* RELATIONSHIP DATE — CHANGE THIS */
+const relationshipStart = new Date("2025-03-05");
+
+/* COUNTDOWN */
+let counter = 5;
+const countdownEl = document.getElementById("countdown");
+
+const countdownInterval = setInterval(()=>{
+  counter--;
+  countdownEl.innerHTML = counter;
+  if(counter === 0){
+    clearInterval(countdownInterval);
+    countdownEl.style.display="none";
+    document.getElementById("slideshow").style.display="flex";
+    showSlide();
+  }
+},1000);
+
+/* SLIDESHOW */
+const slides = document.querySelectorAll('.slide');
+const text = document.getElementById('text');
+let current = 0;
+
+const messages = [
+"You are my peace.",
+"You are my happiness.",
+"You are my favorite place.",
+"You are my comfort.",
+"You are my smile.",
+"You are my safe space.",
+"You are my forever.",
+"You are my heart.",
+"You are my everything.",
+"I love you more every single day."
+];
+
+function showSlide(){
+  slides.forEach(s=>s.classList.remove('active'));
+  text.classList.remove('active');
+
+  slides[current].classList.add('active');
+  text.innerHTML = messages[current];
+  text.classList.add('active');
+
+  setTimeout(()=>{
+    current++;
+    if(current<slides.length){
+      showSlide();
+    } else {
+      endShow();
+    }
+  },6500);
+}
+
+function endShow(){
+  document.getElementById("slideshow").style.display="none";
+  document.getElementById("names").style.display="none";
+  document.getElementById("finalSection").style.display="block";
+  typeParagraph();
+}
+
+/* DAYS CALCULATION */
+function calculateDays(){
+  const today = new Date();
+  const diff = today - relationshipStart;
+  return Math.floor(diff / (1000*60*60*24));
+}
+
+const loveParagraph = `
+It has been ${calculateDays()} beautiful days together.
+
+From the moment you came into my life, everything changed...
+
+You are my always.
+You are my forever.
+
+BE MY VALENTINE ❤️
+`;
+
+let i=0;
+
+function typeParagraph(){
+  if(i<loveParagraph.length){
+    document.getElementById("paragraph").innerHTML += loveParagraph.charAt(i);
+    i++;
+    setTimeout(typeParagraph,35);
+  } else {
+    document.getElementById("yesBtn").style.display="inline-block";
+    document.getElementById("noBtn").style.display="inline-block";
+  }
+}
+
+/* FAKE NO BUTTON */
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+  noBtn.style.top = Math.random()*300+"px";
+  noBtn.style.left = Math.random()*300+"px";
+});
+
+/* FINAL CELEBRATION */
+function finalMessage(){
+  document.body.innerHTML = `
+  <div id="celebration">
+    <canvas id="fireworks"></canvas>
+    <div id="finalText">
+      Mama Godaak Oyata Adare ♥️ <br><br>
+      I look forward for our FUTURE soo Badly ❤️
+    </div>
+  </div>`;
+  createFloatingLove();
+  createHeartFireworks();
+}
+
+function createFloatingLove(){
+  setInterval(()=>{
+    const love=document.createElement("div");
+    love.className="loveFloat";
+    love.innerHTML="I love you ❤️";
+    love.style.left=Math.random()*100+"vw";
+    document.body.appendChild(love);
+    setTimeout(()=>love.remove(),8000);
+  },1000);
+}
+
+function createHeartFireworks(){
+  const canvas=document.getElementById("fireworks");
+  const ctx=canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  let particles=[];
+
+  function heart(t){
+    return {
+      x:16*Math.pow(Math.sin(t),3),
+      y:-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))
+    };
+  }
+
+  function create(){
+    for(let t=0;t<Math.PI*2;t+=0.2){
+      const p=heart(t);
+      particles.push({x:canvas.width/2,y:canvas.height/2,dx:p.x,dy:p.y,life:100});
+    }
+  }
+
+  function animate(){
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    particles.forEach((p,i)=>{
+      p.x+=p.dx;
+      p.y+=p.dy;
+      p.life--;
+      ctx.fillStyle="#ff4d6d";
+      ctx.fillRect(p.x,p.y,2,2);
+      if(p.life<=0)particles.splice(i,1);
+    });
+    requestAnimationFrame(animate);
+  }
+
+  create();
+  setInterval(create,2000);
+  animate();
+}
+
+</script>
+
+</body>
+</html>
