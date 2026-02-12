@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O & Z ❤️</title>
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  background:black;
+  color:white;
+  font-family:Arial, sans-serif;
+  text-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+#lock, #main{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+#main{
+  display:none;
+}
+
+img{
+  width:85%;
+  max-width:400px;
+  border-radius:20px;
+  margin-top:20px;
+  opacity:1;
+  transition:opacity 2s ease-in-out;
+}
+
+#text{
+  margin-top:20px;
+  font-size:18px;
+  width:85%;
+  max-width:400px;
+  opacity:1;
+  transition:opacity 2s ease-in-out;
+}
+
+input{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  margin-top:10px;
+}
+
+button{
+  padding:12px 25px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="lock">
+  <h2>Enter Our Special Date ❤️</h2>
+  <input type="password" id="pass" placeholder="050325">
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<div id="main">
+  <h1>Zayan ❤️ Oma</h1>
+  <img id="photo" src="pic1.JPG">
+  <div id="text">You are my favorite place in the world.</div>
+</div>
+
+<audio id="music" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const images = [
+"pic1.JPG","pic2.JPG","pic3.PNG","pic4.JPG","pic5.JPG",
+"pic6.JPG","pic7.jpg","pic8.JPG","pic9.JPG","pic10.JPG"
+];
+
+const texts = [
+"You are my favorite place in the world.",
+"Every moment with you feels magical.",
+"I fall in love with you more every day.",
+"You are my peace, my happiness, my heart.",
+"Forever isn't long enough with you.",
+"Your smile melts my heart.",
+"You are the best thing in my life.",
+"My heart will always choose you.",
+"With you, everything feels right.",
+"I love you more than words can explain."
+];
+
+let index = 0;
+
+function unlock(){
+  if(document.getElementById("pass").value === "050325"){
+    document.getElementById("lock").style.display="none";
+    document.getElementById("main").style.display="flex";
+
+    const music=document.getElementById("music");
+    music.play().catch(()=>{});
+
+    startSlideshow();
+  }else{
+    alert("Wrong password ❤️");
+  }
+}
+
+function startSlideshow(){
+  setInterval(()=>{
+    const photo=document.getElementById("photo");
+    const text=document.getElementById("text");
+
+    photo.style.opacity=0;
+    text.style.opacity=0;
+
+    setTimeout(()=>{
+      index=(index+1)%images.length;
+      photo.src=images[index];
+      text.innerText=texts[index];
+      photo.style.opacity=1;
+      text.style.opacity=1;
+    },2000);
+
+  },8000);
+}
+
+</script>
+
+</body>
+</html>
