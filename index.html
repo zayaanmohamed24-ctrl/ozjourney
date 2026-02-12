@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mage Adare ♥️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  background:#111;
+  font-family:'Poppins',sans-serif;
+  color:white;
+  text-align:center;
+}
+
+.section{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+#passwordScreen{display:flex;}
+
+canvas{
+  position:absolute;
+  inset:0;
+  z-index:1;
+}
+
+.content{
+  position:relative;
+  z-index:2;
+}
+
+input{
+  padding:14px;
+  border-radius:25px;
+  border:none;
+  width:200px;
+  font-size:18px;
+  text-align:center;
+}
+
+button{
+  margin-top:18px;
+  padding:12px 35px;
+  border-radius:30px;
+  border:none;
+  background:#ff4d88;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+  transition:.3s;
+}
+
+button:hover{transform:scale(1.05);}
+
+.hint{
+  margin-top:8px;
+  font-size:14px;
+  color:#ff7aa8;
+}
+
+#countdown{
+  font-size:20vw;
+  color:#ff7aa8;
+}
+
+.slideTitle{
+  position:absolute;
+  top:5%;
+  font-family:'Dancing Script';
+  font-size:9vw;
+  color:#ff7aa8;
+}
+
+.slide{
+  position:absolute;
+  width:80%;
+  max-height:65%;
+  border-radius:20px;
+  object-fit:contain;
+  opacity:0;
+  transition:opacity 1.5s;
+}
+
+.slide.active{opacity:1;}
+
+.slide-text{
+  position:absolute;
+  bottom:8%;
+  font-family:'Dancing Script';
+  font-size:6vw;
+  color:#ffb6c1;
+  opacity:0;
+  transition:opacity 1.5s;
+}
+
+.slide-text.active{opacity:1;}
+
+#paragraph{
+  max-width:700px;
+  padding:20px;
+  line-height:1.9;
+  white-space:pre-line;
+  color:#ffd1dc;
+  font-size:18px;
+}
+
+#yesPage{
+  background:url('pic3.PNG') center/cover no-repeat;
+}
+
+#yesMessage{
+  font-family:'Dancing Script';
+  font-size:9vw;
+  text-shadow:0 0 25px #ff4d88;
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD -->
+<div id="passwordScreen" class="section">
+  <canvas id="fireworks1"></canvas>
+  <div class="content">
+    <h2 style="font-family:'Dancing Script';font-size:10vw;color:#ff7aa8;">
+      Mage Adare ♥️
+    </h2>
+    <input type="password" id="passwordInput"><br>
+    <button id="enterBtn">Enter</button>
+    <div class="hint">Hint: our special date</div>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div id="countdownScreen" class="section">
+  <div id="countdown">5</div>
+</div>
+
+<!-- SLIDESHOW -->
+<div id="slideshow" class="section">
+  <div class="slideTitle">Mage Adare ♥️</div>
+
+  <img src="pic1.JPG" class="slide">
+  <img src="pic2.JPG" class="slide">
+  <img src="pic3.PNG" class="slide">
+  <img src="pic4.JPG" class="slide">
+  <img src="pic5.JPG" class="slide">
+  <img src="pic6.JPG" class="slide">
+  <img src="pic7.jpg" class="slide">
+  <img src="pic8.JPG" class="slide">
+  <img src="pic9.JPG" class="slide">
+  <img src="pic10.JPG" class="slide">
+
+  <div class="slide-text" id="slideText"></div>
+</div>
+
+<!-- FINAL QUESTION -->
+<div id="finalScreen" class="section">
+  <canvas id="fireworks2"></canvas>
+  <div class="content">
+    <div id="paragraph"></div>
+    <button id="yesBtn">YES ❤️</button>
+    <button id="noBtn">NO 💔</button>
+  </div>
+</div>
+
+<!-- YES PAGE -->
+<div id="yesPage" class="section">
+  <canvas id="fireworks3"></canvas>
+  <div class="content">
+    <div id="yesMessage">
+      Mama Godaak Oyata Adare ♥️ <br><br>
+      I look forward for our FUTURE soo Badly
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic">
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const correctPassword="050325";
+const sections=document.querySelectorAll(".section");
+const slides=document.querySelectorAll(".slide");
+const slideText=document.getElementById("slideText");
+const music=document.getElementById("bgMusic");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+let current=0;
+
+function show(id){
+  sections.forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="flex";
+}
+
+document.getElementById("enterBtn").onclick=function(){
+  if(document.getElementById("passwordInput").value===correctPassword){
+    music.currentTime=0;
+    music.play().catch(()=>{});
+    startCountdown();
+  }else{
+    alert("Wrong password ❤️");
+  }
+};
+
+function startCountdown(){
+  show("countdownScreen");
+  let count=5;
+  const cd=document.getElementById("countdown");
+  cd.innerText=count;
+
+  const interval=setInterval(()=>{
+    count--;
+    cd.innerText=count;
+    if(count===0){
+      clearInterval(interval);
+      startSlideshow();
+    }
+  },1000);
+}
+
+const messages=[
+"You are my peace.",
+"You are my happiness.",
+"You are my comfort.",
+"You are my heart.",
+"You are my safe place.",
+"You are my everything.",
+"I love you more every day.",
+"Forever with you ❤️",
+"My future is with you.",
+"My home is you."
+];
+
+function startSlideshow(){
+  show("slideshow");
+  nextSlide();
+}
+
+function nextSlide(){
+  slides.forEach(s=>s.classList.remove("active"));
+  slideText.classList.remove("active");
+
+  slides[current].classList.add("active");
+  slideText.innerText=messages[current];
+  slideText.classList.add("active");
+
+  setTimeout(()=>{
+    current++;
+    if(current<slides.length){
+      nextSlide();
+    }else{
+      showFinal();
+    }
+  },4000);
+}
+
+function showFinal(){
+  show("finalScreen");
+  startFireworks("fireworks2");
+
+  yesBtn.style.display="none";
+  noBtn.style.display="none";
+
+  const text=`From the moment you walked into my life,
+everything started feeling brighter.
+
+You are not just someone I love —
+you are my peace after chaos,
+my comfort when I'm tired,
+my happiness when I smile.
+
+Every memory with you feels special.
+Every laugh, every hug, every little moment.
+
+I don't just want today with you.
+I want tomorrow.
+I want the future.
+I want forever.
+
+Will you be my Valentine? ❤️`;
+
+  typeWriter(text,document.getElementById("paragraph"));
+}
+
+function typeWriter(text,element){
+  element.innerHTML="";
+  let i=0;
+
+  function typing(){
+    if(i<text.length){
+      element.innerHTML+=text.charAt(i);
+      i++;
+      setTimeout(typing,30);
+    }else{
+      yesBtn.style.display="inline-block";
+      noBtn.style.display="inline-block";
+    }
+  }
+  typing();
+}
+
+yesBtn.onclick=function(){
+  show("yesPage");
+  startFireworks("fireworks3");
+};
+
+function moveNo(){
+  const pad=120;
+  const x=Math.random()*(window.innerWidth-pad);
+  const y=Math.random()*(window.innerHeight-pad);
+  noBtn.style.position="fixed";
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+}
+noBtn.onmouseover=moveNo;
+noBtn.ontouchstart=function(e){
+  e.preventDefault();
+  moveNo();
+};
+
+function startFireworks(id){
+  const canvas=document.getElementById(id);
+  const ctx=canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  let particles=[];
+
+  function create(){
+    const x=Math.random()*canvas.width;
+    const y=Math.random()*canvas.height/2;
+    for(let i=0;i<80;i++){
+      particles.push({
+        x,y,
+        angle:Math.random()*2*Math.PI,
+        speed:Math.random()*5+2,
+        life:100
+      });
+    }
+  }
+
+  function animate(){
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach((p,i)=>{
+      p.x+=Math.cos(p.angle)*p.speed;
+      p.y+=Math.sin(p.angle)*p.speed;
+      p.life--;
+
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,2,0,Math.PI*2);
+      ctx.fillStyle="hsl("+Math.random()*360+",100%,60%)";
+      ctx.fill();
+
+      if(p.life<=0) particles.splice(i,1);
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  setInterval(create,1500);
+  animate();
+}
+
+startFireworks("fireworks1");
+
+window.addEventListener("pageshow",()=>{
+  show("passwordScreen");
+  document.getElementById("passwordInput").value="";
+  current=0;
+});
+</script>
+
+</body>
+</html>
