@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mage Adare ♥️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#111;
+  font-family:'Poppins',sans-serif;
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* PASSWORD */
+#passwordScreen{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:#111;
+}
+
+input{
+  padding:14px;
+  border-radius:25px;
+  border:none;
+  font-size:18px;
+  text-align:center;
+}
+
+button{
+  margin-top:18px;
+  padding:12px 35px;
+  border-radius:30px;
+  border:none;
+  background:#ff4d88;
+  color:white;
+  cursor:pointer;
+  font-size:16px;
+}
+
+button:hover{opacity:0.9;}
+
+.hint{
+  margin-top:10px;
+  font-size:14px;
+  color:#ff7aa8;
+}
+
+/* COUNTDOWN */
+#countdown{
+  display:none;
+  font-size:90px;
+  color:#ff7aa8;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+}
+
+/* SLIDESHOW */
+#slideshow{
+  display:none;
+  position:relative;
+  width:100%;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+}
+
+.slideTitle{
+  position:absolute;
+  top:5%;
+  font-size:55px;
+  color:#ff7aa8;
+  font-family:'Dancing Script',cursive;
+}
+
+.slide{
+  position:absolute;
+  width:65%;
+  max-height:70%;
+  border-radius:20px;
+  opacity:0;
+  transition:opacity 1.5s ease-in-out;
+}
+
+.slide.active{opacity:1;}
+
+.slide-text{
+  position:absolute;
+  bottom:8%;
+  font-size:26px;
+  color:#ffb6c1;
+  font-family:'Dancing Script',cursive;
+  opacity:0;
+  transition:opacity 1.5s;
+}
+
+.slide-text.active{opacity:1;}
+
+/* PARAGRAPH */
+#finalSection{
+  display:none;
+  height:100vh;
+  padding-top:18vh;
+}
+
+#paragraph{
+  font-size:22px;
+  color:#ffd1dc;
+  max-width:700px;
+  margin:auto;
+  line-height:1.8;
+  white-space:pre-line;
+}
+
+/* YES PAGE */
+#yesPage{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100vh;
+  background:url('pic3.PNG') center/cover no-repeat;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+#yesMessage{
+  font-family:'Dancing Script',cursive;
+  font-size:55px;
+  color:white;
+  text-shadow:0 0 25px #ff4d88;
+  z-index:2;
+}
+
+canvas{
+  position:absolute;
+  top:0;
+  left:0;
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD -->
+<div id="passwordScreen">
+  <h2 style="font-family:'Dancing Script';font-size:50px;color:#ff7aa8;">Mage Adare ♥️</h2>
+  <input type="password" id="passwordInput">
+  <button onclick="checkPassword()">Enter</button>
+  <div class="hint">Hint: our special date</div>
+</div>
+
+<div id="countdown">5</div>
+
+<!-- SLIDESHOW -->
+<div id="slideshow">
+  <div class="slideTitle">Mage Adare 🥰</div>
+
+  <img src="pic1.JPG" class="slide">
+  <img src="pic2.JPG" class="slide">
+  <img src="pic3.PNG" class="slide">
+  <img src="pic4.JPG" class="slide">
+  <img src="pic5.JPG" class="slide">
+  <img src="pic6.JPG" class="slide">
+  <img src="pic7.jpg" class="slide">
+  <img src="pic8.JPG" class="slide">
+  <img src="pic9.JPG" class="slide">
+  <img src="pic10.JPG" class="slide">
+
+  <div class="slide-text" id="text"></div>
+</div>
+
+<!-- PARAGRAPH -->
+<div id="finalSection">
+  <div id="paragraph"></div>
+</div>
+
+<!-- YES PAGE -->
+<div id="yesPage">
+  <canvas id="fireworks"></canvas>
+  <div id="yesMessage">
+    Mama Godaak Oyata Adare ♥️ <br><br>
+    I look forward for our FUTURE soo Badly
+  </div>
+</div>
+
+<!-- MUSIC (NO LOOP, NO FORCE STOP) -->
+<audio id="bgMusic" preload="auto">
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const correctPassword="050325";
+
+function checkPassword(){
+  if(document.getElementById("passwordInput").value===correctPassword){
+    document.getElementById("passwordScreen").style.display="none";
+    startCountdown();
+    document.getElementById("bgMusic").play().catch(()=>{});
+  } else {
+    alert("Wrong password ❤️");
+  }
+}
+
+function startCountdown(){
+  const cd=document.getElementById("countdown");
+  cd.style.display="flex";
+  let counter=5;
+  cd.innerHTML=counter;
+
+  const interval=setInterval(()=>{
+    counter--;
+    cd.innerHTML=counter;
+    if(counter===0){
+      clearInterval(interval);
+      cd.style.display="none";
+      startSlideshow();
+    }
+  },1000);
+}
+
+const slides=document.querySelectorAll(".slide");
+const text=document.getElementById("text");
+let current=0;
+
+const messages=[
+"You are my peace.",
+"You are my happiness.",
+"You are my comfort.",
+"You are my favorite place.",
+"You are my heart.",
+"You are my safe place.",
+"You are my home.",
+"You are my everything.",
+"I love you more every single day.",
+"Forever with you ❤️"
+];
+
+function startSlideshow(){
+  document.getElementById("slideshow").style.display="flex";
+  showSlide();
+}
+
+function showSlide(){
+  slides.forEach(s=>s.classList.remove("active"));
+  text.classList.remove("active");
+
+  slides[current].classList.add("active");
+  text.innerHTML=messages[current];
+  text.classList.add("active");
+
+  setTimeout(()=>{
+    current++;
+    if(current<slides.length){
+      showSlide();
+    } else {
+      endShow();
+    }
+  },5000);
+}
+
+function endShow(){
+  document.getElementById("slideshow").style.display="none";
+  document.getElementById("finalSection").style.display="block";
+
+  const relationshipStart=new Date("2025-03-05");
+  const days=Math.floor((new Date()-relationshipStart)/(1000*60*60*24));
+
+  typeWriter(
+  "It has been "+days+" beautiful days together since 05 March 2025.\n\n"+
+  "Every moment with you feels like magic.\n"+
+  "You are my happiness, my peace, my safe place.\n\n"+
+  "Will you be my Valentine? ❤️"
+  );
+}
+
+function typeWriter(textContent){
+  let i=0;
+  const p=document.getElementById("paragraph");
+
+  function typing(){
+    if(i<textContent.length){
+      p.innerHTML+=textContent.charAt(i);
+      i++;
+      setTimeout(typing,35);
+    } else {
+      p.innerHTML+=`
+      <br><br>
+      <button onclick="yesClicked()">YES ❤️</button>
+      <button id="noBtn" onclick="moveNo()">NO 💔</button>
+      `;
+    }
+  }
+  typing();
+}
+
+function moveNo(){
+  const btn=document.getElementById("noBtn");
+  btn.style.position="absolute";
+  btn.style.left=Math.random()*(window.innerWidth-100)+"px";
+  btn.style.top=Math.random()*(window.innerHeight-50)+"px";
+}
+
+function yesClicked(){
+  document.getElementById("finalSection").style.display="none";
+  document.getElementById("yesPage").style.display="flex";
+  startFireworks();
+}
+
+/* REAL FIREWORKS */
+function startFireworks(){
+  const canvas=document.getElementById("fireworks");
+  const ctx=canvas.getContext("2d");
+
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  let particles=[];
+  let rockets=[];
+
+  class Rocket{
+    constructor(){
+      this.x=Math.random()*canvas.width;
+      this.y=canvas.height;
+      this.speed=Math.random()*3+6;
+      this.color="hsl("+Math.random()*360+",100%,60%)";
+      this.exploded=false;
+    }
+    update(){
+      this.y-=this.speed;
+      if(this.y<canvas.height/3){
+        this.exploded=true;
+        for(let i=0;i<50;i++){
+          particles.push(new Particle(this.x,this.y,this.color));
+        }
+      }
+    }
+    draw(){
+      ctx.fillStyle=this.color;
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,3,0,Math.PI*2);
+      ctx.fill();
+    }
+  }
+
+  class Particle{
+    constructor(x,y,color){
+      this.x=x;
+      this.y=y;
+      this.speedX=(Math.random()-0.5)*8;
+      this.speedY=(Math.random()-0.5)*8;
+      this.gravity=0.05;
+      this.alpha=1;
+      this.color=color;
+    }
+    update(){
+      this.speedY+=this.gravity;
+      this.x+=this.speedX;
+      this.y+=this.speedY;
+      this.alpha-=0.015;
+    }
+    draw(){
+      ctx.globalAlpha=this.alpha;
+      ctx.fillStyle=this.color;
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,2,0,Math.PI*2);
+      ctx.fill();
+      ctx.globalAlpha=1;
+    }
+  }
+
+  function animate(){
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    if(Math.random()<0.05){
+      rockets.push(new Rocket());
+    }
+
+    rockets.forEach((r,i)=>{
+      r.update();
+      r.draw();
+      if(r.exploded) rockets.splice(i,1);
+    });
+
+    particles.forEach((p,i)=>{
+      p.update();
+      p.draw();
+      if(p.alpha<=0) particles.splice(i,1);
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+</script>
+
+</body>
+</html>
