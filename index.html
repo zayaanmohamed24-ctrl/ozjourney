@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love ❤️</title>
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+  text-align:center;
+  background:black;
+  color:white;
+  overflow:hidden;
+}
+
+.section{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+#passwordScreen{
+  display:flex;
+}
+
+input{
+  padding:15px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+  text-align:center;
+}
+
+button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:10px;
+  margin-top:15px;
+  cursor:pointer;
+}
+
+.slide{
+  display:none;
+}
+
+.slide.active{
+  display:block;
+}
+
+img{
+  max-width:80%;
+  max-height:60vh;
+  border-radius:15px;
+}
+
+#slideText{
+  margin-top:15px;
+  font-size:20px;
+}
+
+#fireworksCanvas{
+  position:fixed;
+  top:0;
+  left:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD -->
+<div id="passwordScreen" class="section">
+  <h2>Enter Password ❤️</h2>
+  <input type="password" id="passwordInput" placeholder="the date we became one">
+  <button onclick="checkPassword()">Enter</button>
+</div>
+
+<!-- COUNTDOWN -->
+<div id="countdownScreen" class="section">
+  <h1 id="countdown">5</h1>
+</div>
+
+<!-- SLIDESHOW -->
+<div id="slideshow" class="section">
+  <div class="slide active"><img src="1.jpg"></div>
+  <div class="slide"><img src="2.jpg"></div>
+  <div class="slide"><img src="3.jpg"></div>
+  <div id="slideText"></div>
+</div>
+
+<!-- FINAL -->
+<div id="finalScreen" class="section">
+  <canvas id="fireworksCanvas"></canvas>
+  <p id="paragraph" style="white-space:pre-line;"></p>
+  <button id="yesBtn" style="display:none;">Yes ❤️</button>
+  <button id="noBtn" style="display:none; position:fixed;">No 😈</button>
+</div>
+
+<!-- YES PAGE -->
+<div id="yesPage" class="section">
+  <h1>Forever with you ❤️</h1>
+</div>
+
+<script>
+
+const correctPassword="050325";
+const sections=document.querySelectorAll(".section");
+const slides=document.querySelectorAll(".slide");
+const slideText=document.getElementById("slideText");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+
+let current=0;
+
+function show(id){
+  sections.forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="flex";
+}
+
+function checkPassword(){
+  if(document.getElementById("passwordInput").value===correctPassword){
+    startCountdown();
+  }else{
+    alert("Wrong password ❤️");
+  }
+}
+
+function startCountdown(){
+  show("countdownScreen");
+  let count=5;
+  const el=document.getElementById("countdown");
+  const interval=setInterval(()=>{
+    count--;
+    el.textContent=count;
+    if(count===0){
+      clearInterval(interval);
+      startSlideshow();
+    }
+  },1000);
+}
+
+function startSlideshow(){
+  show("slideshow");
+
+  const texts=[
+    "Look at us being this cute 🥹",
+    "This smile? Because of you 😌",
+    "Our chaos is my favorite 😂",
+    "Still obsessed with this moment 💕",
+    "Why are we this adorable 😭"
+  ];
+
+  slideText.textContent=texts[0];
+
+  const slideInterval=setInterval(()=>{
+    slides[current].classList.remove("active");
+    current++;
+
+    if(current>=slides.length){
+      clearInterval(slideInterval);
+      setTimeout(showFinalScreen,1500);
+      return;
+    }
+
+    slides[current].classList.add("active");
+    slideText.textContent=texts[current];
+  },3000);
+}
+
+function showFinalScreen(){
+  show("finalScreen");
+  startFireworks();
+
+  const startDate=new Date("2025-03-05");
+  const today=new Date();
+  const days=Math.floor((today-startDate)/(1000*60*60*24));
+
+  const message=`From the day we became one,
+
+You became my peace.
+My happiness.
+My favorite human.
+
+Our days together: ${days} days ❤️
+
+Will you be my Valentine? ❤️`;
+
+  typeWriter(message);
+}
+
+function typeWriter(text){
+  const el=document.getElementById("paragraph");
+  el.textContent="";
+  let i=0;
+
+  function typing(){
+    if(i<text.length){
+      el.textContent+=text.charAt(i);
+      i++;
+      setTimeout(typing,30);
+    }else{
+      yesBtn.style.display="inline-block";
+      noBtn.style.display="inline-block";
+      activateNoButton();
+    }
+  }
+  typing();
+}
+
+function activateNoButton(){
+  noBtn.onclick=function(e){
+    e.preventDefault();
+    moveButton();
+    return false;
+  };
+
+  noBtn.addEventListener("touchstart",function(e){
+    e.preventDefault();
+    moveButton();
+  });
+}
+
+function moveButton(){
+  const x=Math.random()*(window.innerWidth-120);
+  const y=Math.random()*(window.innerHeight-70);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+}
+
+function startFireworks(){
+  const canvas=document.getElementById("fireworksCanvas");
+  const ctx=canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  const particles=[];
+
+  function createFirework(){
+    const x=Math.random()*canvas.width;
+    const y=canvas.height;
+    const targetY=Math.random()*canvas.height/2;
+    const color=`hsl(${Math.random()*360},100%,60%)`;
+
+    particles.push({x,y,targetY,color,type:"rocket"});
+  }
+
+  function explode(x,y,color){
+    for(let i=0;i<60;i++){
+      const angle=Math.random()*2*Math.PI;
+      const speed=Math.random()*5+2;
+      particles.push({
+        x:x,
+        y:y,
+        dx:Math.cos(angle)*speed,
+        dy:Math.sin(angle)*speed,
+        life:80,
+        color:color,
+        type:"spark"
+      });
+    }
+  }
+
+  function animate(){
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+
+      if(p.type==="rocket"){
+        p.y-=6;
+        ctx.fillStyle=p.color;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fill();
+
+        if(p.y<=p.targetY){
+          explode(p.x,p.y,p.color);
+          particles.splice(i,1);
+        }
+
+      }else{
+        p.x+=p.dx;
+        p.y+=p.dy;
+        p.dy+=0.05;
+        p.life--;
+
+        ctx.fillStyle=p.color;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,2,0,Math.PI*2);
+        ctx.fill();
+
+        if(p.life<=0){
+          particles.splice(i,1);
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  setInterval(createFirework,800);
+  animate();
+}
+
+yesBtn.onclick=function(){
+  show("yesPage");
+};
+
+</script>
+
+</body>
+</html>
